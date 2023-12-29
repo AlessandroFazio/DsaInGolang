@@ -23,3 +23,7 @@ func (q *Queue[T]) Pop() T {
 func (q *Queue[T]) Size() int {
 	return len(q.array)
 }
+
+func (q *Queue[T]) IsEmpty() bool{
+	return len(q.array) == 0
+}
