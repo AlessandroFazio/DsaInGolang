@@ -2,20 +2,20 @@ package linkedlists
 
 import "fmt"
 
-type node struct{
-	data int
-	next *node
-	previous *node
+type node[T comparable] struct{
+	data T
+	next *node[T]
+	previous *node[T]
 }
 
-type LinkedList struct{
-	head *node
-	tail *node
+type LinkedList[T comparable] struct{
+	head *node[T]
+	tail *node[T]
 	Size int
 }
 
-func (l *LinkedList) AddFirst(data int) {
-	newNode := &node{data: data}
+func (l *LinkedList[T]) AddFirst (data T) {
+	newNode := &node[T]{data: data}
 	oldHead := l.head
 	l.head = newNode
 	newNode.next = oldHead
@@ -27,8 +27,8 @@ func (l *LinkedList) AddFirst(data int) {
 	l.Size++
 }
 
-func (l *LinkedList) AddLast(data int) {
-	newNode := &node{data: data}
+func (l *LinkedList[T]) AddLast(data T) {
+	newNode := &node[T]{data: data}
 	oldTail := l.tail
 	l.tail = newNode
 	newNode.previous = oldTail
@@ -40,10 +40,9 @@ func (l *LinkedList) AddLast(data int) {
 	l.Size++
 }
 
-func (l *LinkedList) RemoveFirst() int {
+func (l *LinkedList[T]) RemoveFirst() (T, error) {
 	if l.Size == 0 {
-		fmt.Println("LinkedList is empty. Nothing to remove")
-		return -1
+		return *new(T), fmt.Errorf("LinkedList is empty. Nothing to remove")
 	}
 	oldHead := l.head
 	l.head = oldHead.next
@@ -53,13 +52,12 @@ func (l *LinkedList) RemoveFirst() int {
 		l.head.previous = nil
 	}
 	l.Size--
-	return oldHead.data
+	return oldHead.data, nil
 }
 
-func (l *LinkedList) RemoveLast() int {
+func (l *LinkedList[T]) RemoveLast() (T, error) {
 	if l.Size == 0 {
-		fmt.Println("LinkedList is empty. Nothing to remove")
-		return -1
+		return *new(T), fmt.Errorf("LinkedList is empty. Nothing to remove")
 	}
 	oldTail := l.tail
 	l.tail = oldTail.previous
@@ -69,13 +67,12 @@ func (l *LinkedList) RemoveLast() int {
 		l.tail.next = nil
 	}
 	l.Size--
-	return oldTail.data
+	return oldTail.data, nil
 }
 
-func (l *LinkedList) Remove(data int) int{
+func (l *LinkedList[T]) Remove(data T) (T, error) {
 	if l.Size == 0 {
-		fmt.Println("LinkedList is empty. Nothing to remove")
-		return -1
+		return *new(T), fmt.Errorf("LinkedList is empty. Nothing to remove")
 	}
 	current := l.head
 	for current != nil {
@@ -92,14 +89,14 @@ func (l *LinkedList) Remove(data int) int{
 				l.tail = current.previous
 			}
 			l.Size--
-			return removed
+			return removed, nil
 		}
 		current = current.next
 	}
-	return -1
+	return *new(T), nil
 }
 
-func (l LinkedList) Traverse() {
+func (l LinkedList[T]) Traverse() {
 	if l.Size == 0 {
 		fmt.Println("LinkedList is empty. Nothing to print")
 		return

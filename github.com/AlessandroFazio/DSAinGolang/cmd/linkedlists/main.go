@@ -8,12 +8,21 @@ import (
 )
 
 func main() {
-	l := ll.LinkedList{}
-	l.AddLast(10)
-	l.AddLast(20)
-	l.AddLast(30)
-	l.AddLast(40)
-	l.AddLast(50)
+	l := ll.LinkedList[string]{}
+	// with integer
+	// l := ll.LinkedList[int]{}
+	// l.AddLast(10)
+	// l.AddLast(20)
+	// l.AddLast(30)
+	// l.AddLast(40)
+	// l.AddLast(50)
+
+	l.AddLast("mio")
+	l.AddLast("tuo")
+	l.AddLast("suo")
+	l.AddLast("nostro")
+	l.AddLast("vostro")
+	l.AddLast("loro")
 
 	// for i := 0; i < 5; i++ {
 	//	fmt.Printf("Size of the LinkedList is: %v\n", l.Size)
@@ -21,8 +30,16 @@ func main() {
 	// }
 
 	l.Traverse()
-	fmt.Println("\nRemove with Value: ", l.Remove(10))
+	if value,err := l.Remove("mio"); err != nil {
+		fmt.Println("Error removing element:", err)
+	} else {
+		fmt.Println("\nRemove with Value: ", value)
+	}
 	fmt.Println("newSize: ", l.Size)
 	l.Traverse()
-	fmt.Println("Removed 10 again: ", l.Remove(10))
+	if value,err := l.Remove("mio"); err != nil {
+		fmt.Println("Error removing element:", err)
+	} else {
+		fmt.Println("\nRemove with Value: ", value)
+	}
 }
